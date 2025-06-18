@@ -91,7 +91,7 @@ class PrincessGarden {
     createNeighboringTerrain() {
         const terrainGeometry = new THREE.PlaneGeometry(20, 20);
         const terrainMaterial = new THREE.MeshLambertMaterial({ 
-            color: 0x3d6b47,  // Slightly darker green than garden grass
+            color: 0x4a7c59,  // Same color as garden grass quadrants
             transparent: true
         });
         
