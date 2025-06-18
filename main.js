@@ -194,11 +194,11 @@ class PrincessGarden {
     }
     
     createPrincess() {
-        // Princess torso (more realistic proportions)
+        // Princess torso (more realistic proportions) - made taller
         const torsoGeometry = new THREE.CylinderGeometry(0.35, 0.45, 0.8, 12);
         const torsoMaterial = new THREE.MeshLambertMaterial({ color: 0xffc0cb });
         const torso = new THREE.Mesh(torsoGeometry, torsoMaterial);
-        torso.position.set(0, 1.2, 0);
+        torso.position.set(0, 1.7, 0); // raised from 1.2 to 1.7
         torso.castShadow = true;
         this.scene.add(torso);
 
@@ -206,7 +206,7 @@ class PrincessGarden {
         const waistGeometry = new THREE.CylinderGeometry(0.3, 0.35, 0.3, 12);
         const waistMaterial = new THREE.MeshLambertMaterial({ color: 0xff69b4 });
         const waist = new THREE.Mesh(waistGeometry, waistMaterial);
-        waist.position.set(0, 0.95, 0);
+        waist.position.set(0, 1.45, 0); // raised from 0.95 to 1.45
         waist.castShadow = true;
         this.scene.add(waist);
 
@@ -214,7 +214,7 @@ class PrincessGarden {
         const skirtGeometry = new THREE.CylinderGeometry(0.6, 0.3, 0.5, 16);
         const skirtMaterial = new THREE.MeshLambertMaterial({ color: 0xff1493 });
         const skirt = new THREE.Mesh(skirtGeometry, skirtMaterial);
-        skirt.position.set(0, 0.6, 0);
+        skirt.position.set(0, 1.1, 0); // raised from 0.6 to 1.1
         skirt.castShadow = true;
         this.scene.add(skirt);
         
@@ -222,20 +222,20 @@ class PrincessGarden {
         const headGeometry = new THREE.SphereGeometry(0.22, 16, 16);
         const headMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
         const head = new THREE.Mesh(headGeometry, headMaterial);
-        head.position.set(0, 1.82, 0);
+        head.position.set(0, 2.32, 0); // raised from 1.82 to 2.32
         head.castShadow = true;
         this.scene.add(head);
 
-        // Larger, more expressive eyes
+        // Larger, more expressive eyes - positioned better on face
         const eyeGeometry = new THREE.SphereGeometry(0.05, 8, 8);
         const eyeMaterial = new THREE.MeshLambertMaterial({ color: 0x4169e1 }); // Royal blue eyes
         
         const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-        leftEye.position.set(-0.08, 1.86, 0.18);
+        leftEye.position.set(-0.08, 2.36, 0.15); // raised and moved back slightly
         this.scene.add(leftEye);
         
         const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-        rightEye.position.set(0.08, 1.86, 0.18);
+        rightEye.position.set(0.08, 2.36, 0.15); // raised and moved back slightly
         this.scene.add(rightEye);
 
         // Eye pupils
@@ -243,11 +243,11 @@ class PrincessGarden {
         const pupilMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
         
         const leftPupil = new THREE.Mesh(pupilGeometry, pupilMaterial);
-        leftPupil.position.set(-0.08, 1.86, 0.2);
+        leftPupil.position.set(-0.08, 2.36, 0.17); // raised and adjusted
         this.scene.add(leftPupil);
         
         const rightPupil = new THREE.Mesh(pupilGeometry, pupilMaterial);
-        rightPupil.position.set(0.08, 1.86, 0.2);
+        rightPupil.position.set(0.08, 2.36, 0.17); // raised and adjusted
         this.scene.add(rightPupil);
 
         // Eyelashes
@@ -257,7 +257,7 @@ class PrincessGarden {
         // Left eyelashes
         for (let i = 0; i < 5; i++) {
             const eyelash = new THREE.Mesh(eyelashGeometry, eyelashMaterial);
-            eyelash.position.set(-0.08 + (i - 2) * 0.015, 1.89, 0.19);
+            eyelash.position.set(-0.08 + (i - 2) * 0.015, 2.39, 0.16); // raised
             eyelash.rotation.z = (i - 2) * 0.1;
             eyelash.rotation.x = -0.2;
             this.scene.add(eyelash);
@@ -266,7 +266,7 @@ class PrincessGarden {
         // Right eyelashes
         for (let i = 0; i < 5; i++) {
             const eyelash = new THREE.Mesh(eyelashGeometry, eyelashMaterial);
-            eyelash.position.set(0.08 + (i - 2) * 0.015, 1.89, 0.19);
+            eyelash.position.set(0.08 + (i - 2) * 0.015, 2.39, 0.16); // raised
             eyelash.rotation.z = (i - 2) * 0.1;
             eyelash.rotation.x = -0.2;
             this.scene.add(eyelash);
@@ -281,18 +281,18 @@ class PrincessGarden {
         });
         
         const leftCheek = new THREE.Mesh(cheekGeometry, cheekMaterial);
-        leftCheek.position.set(-0.12, 1.8, 0.16);
+        leftCheek.position.set(-0.12, 2.3, 0.13); // raised and moved back
         this.scene.add(leftCheek);
         
         const rightCheek = new THREE.Mesh(cheekGeometry, cheekMaterial);
-        rightCheek.position.set(0.12, 1.8, 0.16);
+        rightCheek.position.set(0.12, 2.3, 0.13); // raised and moved back
         this.scene.add(rightCheek);
 
         // Improved nose
         const noseGeometry = new THREE.SphereGeometry(0.018, 8, 8);
         const noseMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
         const nose = new THREE.Mesh(noseGeometry, noseMaterial);
-        nose.position.set(0, 1.81, 0.2);
+        nose.position.set(0, 2.31, 0.17); // raised and moved back slightly
         nose.scale.set(0.8, 0.6, 1.2);
         this.scene.add(nose);
 
@@ -300,7 +300,7 @@ class PrincessGarden {
         const lipGeometry = new THREE.SphereGeometry(0.03, 8, 6);
         const lipMaterial = new THREE.MeshLambertMaterial({ color: 0xff1493 });
         const lips = new THREE.Mesh(lipGeometry, lipMaterial);
-        lips.position.set(0, 1.76, 0.19);
+        lips.position.set(0, 2.26, 0.16); // raised and moved back
         lips.scale.set(1.8, 0.4, 0.8);
         this.scene.add(lips);
         
@@ -308,7 +308,7 @@ class PrincessGarden {
         const hairGeometry = new THREE.SphereGeometry(0.28, 16, 16);
         const hairMaterial = new THREE.MeshLambertMaterial({ color: 0xffd700 }); // Golden color
         const hair = new THREE.Mesh(hairGeometry, hairMaterial);
-        hair.position.set(0, 1.92, -0.08);
+        hair.position.set(0, 2.42, -0.08); // raised from 1.92 to 2.42
         hair.scale.set(1.2, 1.4, 1.1);
         hair.castShadow = true;
         this.scene.add(hair);
@@ -317,13 +317,13 @@ class PrincessGarden {
         const sideHairGeometry = new THREE.SphereGeometry(0.18, 12, 12);
         
         const leftSideHair = new THREE.Mesh(sideHairGeometry, hairMaterial);
-        leftSideHair.position.set(-0.25, 1.88, -0.02);
+        leftSideHair.position.set(-0.25, 2.38, -0.02); // raised from 1.88 to 2.38
         leftSideHair.scale.set(1.3, 1.2, 0.8);
         leftSideHair.castShadow = true;
         this.scene.add(leftSideHair);
         
         const rightSideHair = new THREE.Mesh(sideHairGeometry, hairMaterial);
-        rightSideHair.position.set(0.25, 1.88, -0.02);
+        rightSideHair.position.set(0.25, 2.38, -0.02); // raised from 1.88 to 2.38
         rightSideHair.scale.set(1.3, 1.2, 0.8);
         rightSideHair.castShadow = true;
         this.scene.add(rightSideHair);
@@ -335,7 +335,7 @@ class PrincessGarden {
             const angle = (i / 8) * Math.PI * 2;
             strand.position.set(
                 Math.cos(angle) * 0.28,
-                1.7,
+                2.2, // raised from 1.7 to 2.2
                 Math.sin(angle) * 0.28 - 0.08
             );
             strand.rotation.z = Math.cos(angle) * 0.4;
@@ -348,7 +348,7 @@ class PrincessGarden {
         const tiaraGeometry = new THREE.CylinderGeometry(0.26, 0.28, 0.08, 16);
         const tiaraMaterial = new THREE.MeshLambertMaterial({ color: 0xffd700 });
         const tiara = new THREE.Mesh(tiaraGeometry, tiaraMaterial);
-        tiara.position.set(0, 2.02, 0);
+        tiara.position.set(0, 2.52, 0); // raised from 2.02 to 2.52
         tiara.castShadow = true;
         this.scene.add(tiara);
 
@@ -360,7 +360,7 @@ class PrincessGarden {
             const angle = (i / 5) * Math.PI * 2;
             gem.position.set(
                 Math.cos(angle) * 0.25,
-                2.06,
+                2.56, // raised from 2.06 to 2.56
                 Math.sin(angle) * 0.25
             );
             this.scene.add(gem);
@@ -371,12 +371,12 @@ class PrincessGarden {
         const shoulderMaterial = new THREE.MeshLambertMaterial({ color: 0xffc0cb });
         
         const leftShoulder = new THREE.Mesh(shoulderGeometry, shoulderMaterial);
-        leftShoulder.position.set(-0.4, 1.4, 0);
+        leftShoulder.position.set(-0.4, 1.9, 0); // raised from 1.4 to 1.9
         leftShoulder.castShadow = true;
         this.scene.add(leftShoulder);
         
         const rightShoulder = new THREE.Mesh(shoulderGeometry, shoulderMaterial);
-        rightShoulder.position.set(0.4, 1.4, 0);
+        rightShoulder.position.set(0.4, 1.9, 0); // raised from 1.4 to 1.9
         rightShoulder.castShadow = true;
         this.scene.add(rightShoulder);
         
@@ -385,14 +385,14 @@ class PrincessGarden {
         const armMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
         
         const leftUpperArm = new THREE.Mesh(upperArmGeometry, armMaterial);
-        leftUpperArm.position.set(-0.45, 1.1, 0.1);
+        leftUpperArm.position.set(-0.45, 1.6, 0.1); // raised from 1.1 to 1.6
         leftUpperArm.rotation.z = Math.PI / 6;
         leftUpperArm.rotation.x = -Math.PI / 8;
         leftUpperArm.castShadow = true;
         this.scene.add(leftUpperArm);
         
         const rightUpperArm = new THREE.Mesh(upperArmGeometry, armMaterial);
-        rightUpperArm.position.set(0.45, 1.1, 0.1);
+        rightUpperArm.position.set(0.45, 1.6, 0.1); // raised from 1.1 to 1.6
         rightUpperArm.rotation.z = -Math.PI / 6;
         rightUpperArm.rotation.x = -Math.PI / 8;
         rightUpperArm.castShadow = true;
@@ -402,12 +402,12 @@ class PrincessGarden {
         const elbowGeometry = new THREE.SphereGeometry(0.08, 10, 10);
         
         const leftElbow = new THREE.Mesh(elbowGeometry, armMaterial);
-        leftElbow.position.set(-0.52, 0.85, 0.18);
+        leftElbow.position.set(-0.52, 1.35, 0.18); // raised from 0.85 to 1.35
         leftElbow.castShadow = true;
         this.scene.add(leftElbow);
         
         const rightElbow = new THREE.Mesh(elbowGeometry, armMaterial);
-        rightElbow.position.set(0.52, 0.85, 0.18);
+        rightElbow.position.set(0.52, 1.35, 0.18); // raised from 0.85 to 1.35
         rightElbow.castShadow = true;
         this.scene.add(rightElbow);
         
@@ -415,14 +415,14 @@ class PrincessGarden {
         const lowerArmGeometry = new THREE.CylinderGeometry(0.08, 0.1, 0.35, 12);
         
         const leftLowerArm = new THREE.Mesh(lowerArmGeometry, armMaterial);
-        leftLowerArm.position.set(-0.55, 0.6, 0.35);
+        leftLowerArm.position.set(-0.55, 1.1, 0.35); // raised from 0.6 to 1.1
         leftLowerArm.rotation.z = Math.PI / 8;
         leftLowerArm.rotation.x = -Math.PI / 4;
         leftLowerArm.castShadow = true;
         this.scene.add(leftLowerArm);
         
         const rightLowerArm = new THREE.Mesh(lowerArmGeometry, armMaterial);
-        rightLowerArm.position.set(0.55, 0.6, 0.35);
+        rightLowerArm.position.set(0.55, 1.1, 0.35); // raised from 0.6 to 1.1
         rightLowerArm.rotation.z = -Math.PI / 8;
         rightLowerArm.rotation.x = -Math.PI / 4;
         rightLowerArm.castShadow = true;
@@ -438,14 +438,14 @@ class PrincessGarden {
         const handMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
         
         const leftPalm = new THREE.Mesh(palmGeometry, handMaterial);
-        leftPalm.position.set(-0.58, 0.42, 0.55);
+        leftPalm.position.set(-0.58, 0.92, 0.55); // raised from 0.42 to 0.92
         leftPalm.rotation.x = -Math.PI / 3;
         leftPalm.rotation.z = Math.PI / 12;
         leftPalm.castShadow = true;
         this.scene.add(leftPalm);
         
         const rightPalm = new THREE.Mesh(palmGeometry, handMaterial);
-        rightPalm.position.set(0.58, 0.42, 0.55);
+        rightPalm.position.set(0.58, 0.92, 0.55); // raised from 0.42 to 0.92
         rightPalm.rotation.x = -Math.PI / 3;
         rightPalm.rotation.z = -Math.PI / 12;
         rightPalm.castShadow = true;
@@ -458,7 +458,7 @@ class PrincessGarden {
             const finger = new THREE.Mesh(fingerGeometry, handMaterial);
             finger.position.set(
                 -0.58 + (i - 1.5) * 0.025,
-                0.38,
+                0.88, // raised from 0.38 to 0.88
                 0.62
             );
             finger.rotation.x = -Math.PI / 2.5;
@@ -469,7 +469,7 @@ class PrincessGarden {
 
         // Thumb for left hand
         const thumb = new THREE.Mesh(fingerGeometry, handMaterial);
-        thumb.position.set(-0.62, 0.44, 0.52);
+        thumb.position.set(-0.62, 0.94, 0.52); // raised from 0.44 to 0.94
         thumb.rotation.x = -Math.PI / 4;
         thumb.rotation.y = Math.PI / 6;
         thumb.rotation.z = Math.PI / 8;
@@ -481,7 +481,7 @@ class PrincessGarden {
             const finger = new THREE.Mesh(fingerGeometry, handMaterial);
             finger.position.set(
                 0.58 + (i - 1.5) * 0.025,
-                0.38,
+                0.88, // raised from 0.38 to 0.88
                 0.62
             );
             finger.rotation.x = -Math.PI / 2.5;
@@ -492,7 +492,7 @@ class PrincessGarden {
 
         // Thumb for right hand
         const rightThumb = new THREE.Mesh(fingerGeometry, handMaterial);
-        rightThumb.position.set(0.62, 0.44, 0.52);
+        rightThumb.position.set(0.62, 0.94, 0.52); // raised from 0.44 to 0.94
         rightThumb.rotation.x = -Math.PI / 4;
         rightThumb.rotation.y = -Math.PI / 6;
         rightThumb.rotation.z = -Math.PI / 8;
@@ -512,16 +512,16 @@ class PrincessGarden {
             opacity: 0.8
         });
         
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 30; i++) { // increased from 20 to 30 particles
             const particle = new THREE.Mesh(particleGeometry, particleMaterial);
-            particle.position.set(0, 1.4, 0.6);
+            particle.position.set(0, 1.9, 0.6); // raised initial position
             particle.userData = {
                 velocity: new THREE.Vector3(
-                    (Math.random() - 0.5) * 0.1,
-                    Math.random() * 0.2 + 0.1,
-                    Math.random() * 0.1
+                    (Math.random() - 0.5) * 0.15,
+                    Math.random() * 0.3 + 0.15,
+                    Math.random() * 0.15 + 0.05
                 ),
-                life: Math.random() * 2 + 1
+                life: Math.random() * 3 + 1.5 // longer life
             };
             this.scene.add(particle);
             this.waterParticles.push(particle);
@@ -781,16 +781,20 @@ class PrincessGarden {
             particle.userData.velocity.y -= 9.8 * deltaTime;
             
             // Reset particle when it hits the ground or life expires
-            if (particle.position.y < 0.8 || particle.userData.life <= 0) {
-                // Reset from princess hands
-                const hand = this.princessHands[Math.floor(Math.random() * 2)];
-                particle.position.copy(hand.position);
-                particle.userData.velocity.set(
-                    (Math.random() - 0.5) * 0.3,
-                    Math.random() * 0.4 + 0.2,
-                    Math.random() * 0.2 + 0.1
-                );
-                particle.userData.life = Math.random() * 2 + 1;
+            if (particle.position.y < 1.3 || particle.userData.life <= 0) { // adjusted ground level
+                // Reset from princess hands - ensure hands exist
+                if (this.princessHands && this.princessHands.length > 0) {
+                    const hand = this.princessHands[Math.floor(Math.random() * 2)];
+                    particle.position.copy(hand.position);
+                    // Add slight offset upward from hand
+                    particle.position.y += 0.1;
+                    particle.userData.velocity.set(
+                        (Math.random() - 0.5) * 0.2,
+                        Math.random() * 0.4 + 0.25,
+                        Math.random() * 0.2 + 0.1
+                    );
+                    particle.userData.life = Math.random() * 3 + 1.5;
+                }
             }
         });
     }
