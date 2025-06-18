@@ -194,66 +194,234 @@ class PrincessGarden {
     }
     
     createPrincess() {
-        // Princess body
-        const bodyGeometry = new THREE.CylinderGeometry(0.3, 0.4, 1.2, 8);
-        const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0xffc0cb });
-        const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
-        body.position.set(0, 1.4, 0);
-        body.castShadow = true;
-        this.scene.add(body);
+        // Princess torso (more realistic proportions)
+        const torsoGeometry = new THREE.CylinderGeometry(0.35, 0.45, 0.8, 12);
+        const torsoMaterial = new THREE.MeshLambertMaterial({ color: 0xffc0cb });
+        const torso = new THREE.Mesh(torsoGeometry, torsoMaterial);
+        torso.position.set(0, 1.2, 0);
+        torso.castShadow = true;
+        this.scene.add(torso);
+
+        // Princess waist
+        const waistGeometry = new THREE.CylinderGeometry(0.3, 0.35, 0.3, 12);
+        const waistMaterial = new THREE.MeshLambertMaterial({ color: 0xff69b4 });
+        const waist = new THREE.Mesh(waistGeometry, waistMaterial);
+        waist.position.set(0, 0.95, 0);
+        waist.castShadow = true;
+        this.scene.add(waist);
+
+        // Princess skirt
+        const skirtGeometry = new THREE.CylinderGeometry(0.6, 0.3, 0.5, 16);
+        const skirtMaterial = new THREE.MeshLambertMaterial({ color: 0xff1493 });
+        const skirt = new THREE.Mesh(skirtGeometry, skirtMaterial);
+        skirt.position.set(0, 0.6, 0);
+        skirt.castShadow = true;
+        this.scene.add(skirt);
         
-        // Princess head
-        const headGeometry = new THREE.SphereGeometry(0.25, 16, 16);
+        // Princess head (more proportional)
+        const headGeometry = new THREE.SphereGeometry(0.22, 16, 16);
         const headMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
         const head = new THREE.Mesh(headGeometry, headMaterial);
-        head.position.set(0, 2.2, 0);
+        head.position.set(0, 1.82, 0);
         head.castShadow = true;
         this.scene.add(head);
+
+        // Eyes
+        const eyeGeometry = new THREE.SphereGeometry(0.03, 8, 8);
+        const eyeMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
         
-        // Hair
-        const hairGeometry = new THREE.SphereGeometry(0.3, 16, 16);
+        const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        leftEye.position.set(-0.08, 1.85, 0.18);
+        this.scene.add(leftEye);
+        
+        const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        rightEye.position.set(0.08, 1.85, 0.18);
+        this.scene.add(rightEye);
+
+        // Nose
+        const noseGeometry = new THREE.SphereGeometry(0.015, 6, 6);
+        const noseMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
+        const nose = new THREE.Mesh(noseGeometry, noseMaterial);
+        nose.position.set(0, 1.8, 0.2);
+        this.scene.add(nose);
+
+        // Mouth
+        const mouthGeometry = new THREE.SphereGeometry(0.02, 8, 4);
+        const mouthMaterial = new THREE.MeshLambertMaterial({ color: 0xff6b9d });
+        const mouth = new THREE.Mesh(mouthGeometry, mouthMaterial);
+        mouth.position.set(0, 1.75, 0.18);
+        mouth.scale.set(1.5, 0.5, 0.8);
+        this.scene.add(mouth);
+        
+        // Hair (more detailed)
+        const hairGeometry = new THREE.SphereGeometry(0.28, 16, 16);
         const hairMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
         const hair = new THREE.Mesh(hairGeometry, hairMaterial);
-        hair.position.set(0, 2.3, 0);
-        hair.scale.set(1, 1.2, 1);
+        hair.position.set(0, 1.9, -0.05);
+        hair.scale.set(1.1, 1.3, 1);
         hair.castShadow = true;
         this.scene.add(hair);
+
+        // Hair strands
+        for (let i = 0; i < 6; i++) {
+            const strandGeometry = new THREE.CylinderGeometry(0.02, 0.01, 0.3, 6);
+            const strand = new THREE.Mesh(strandGeometry, hairMaterial);
+            const angle = (i / 6) * Math.PI * 2;
+            strand.position.set(
+                Math.cos(angle) * 0.25,
+                1.75,
+                Math.sin(angle) * 0.25 - 0.05
+            );
+            strand.rotation.z = Math.cos(angle) * 0.3;
+            strand.rotation.x = Math.sin(angle) * 0.3;
+            this.scene.add(strand);
+        }
         
-        // Arms reaching forward
-        const armGeometry = new THREE.CylinderGeometry(0.08, 0.08, 0.6, 8);
+        // Neck
+        const neckGeometry = new THREE.CylinderGeometry(0.12, 0.15, 0.2, 12);
+        const neckMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
+        const neck = new THREE.Mesh(neckGeometry, neckMaterial);
+        neck.position.set(0, 1.55, 0);
+        neck.castShadow = true;
+        this.scene.add(neck);
+
+        // Shoulders
+        const shoulderGeometry = new THREE.SphereGeometry(0.18, 12, 12);
+        const shoulderMaterial = new THREE.MeshLambertMaterial({ color: 0xffc0cb });
+        
+        const leftShoulder = new THREE.Mesh(shoulderGeometry, shoulderMaterial);
+        leftShoulder.position.set(-0.4, 1.4, 0);
+        leftShoulder.castShadow = true;
+        this.scene.add(leftShoulder);
+        
+        const rightShoulder = new THREE.Mesh(shoulderGeometry, shoulderMaterial);
+        rightShoulder.position.set(0.4, 1.4, 0);
+        rightShoulder.castShadow = true;
+        this.scene.add(rightShoulder);
+        
+        // Upper arms
+        const upperArmGeometry = new THREE.CylinderGeometry(0.1, 0.12, 0.4, 12);
         const armMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
         
-        const leftArm = new THREE.Mesh(armGeometry, armMaterial);
-        leftArm.position.set(-0.3, 1.7, 0.3);
-        leftArm.rotation.z = Math.PI / 4;
-        leftArm.rotation.x = -Math.PI / 6;
-        leftArm.castShadow = true;
-        this.scene.add(leftArm);
+        const leftUpperArm = new THREE.Mesh(upperArmGeometry, armMaterial);
+        leftUpperArm.position.set(-0.45, 1.1, 0.1);
+        leftUpperArm.rotation.z = Math.PI / 6;
+        leftUpperArm.rotation.x = -Math.PI / 8;
+        leftUpperArm.castShadow = true;
+        this.scene.add(leftUpperArm);
         
-        const rightArm = new THREE.Mesh(armGeometry, armMaterial);
-        rightArm.position.set(0.3, 1.7, 0.3);
-        rightArm.rotation.z = -Math.PI / 4;
-        rightArm.rotation.x = -Math.PI / 6;
-        rightArm.castShadow = true;
-        this.scene.add(rightArm);
+        const rightUpperArm = new THREE.Mesh(upperArmGeometry, armMaterial);
+        rightUpperArm.position.set(0.45, 1.1, 0.1);
+        rightUpperArm.rotation.z = -Math.PI / 6;
+        rightUpperArm.rotation.x = -Math.PI / 8;
+        rightUpperArm.castShadow = true;
+        this.scene.add(rightUpperArm);
+
+        // Elbows
+        const elbowGeometry = new THREE.SphereGeometry(0.08, 10, 10);
         
-        // Hands
-        const handGeometry = new THREE.SphereGeometry(0.08, 8, 8);
+        const leftElbow = new THREE.Mesh(elbowGeometry, armMaterial);
+        leftElbow.position.set(-0.52, 0.85, 0.18);
+        leftElbow.castShadow = true;
+        this.scene.add(leftElbow);
+        
+        const rightElbow = new THREE.Mesh(elbowGeometry, armMaterial);
+        rightElbow.position.set(0.52, 0.85, 0.18);
+        rightElbow.castShadow = true;
+        this.scene.add(rightElbow);
+        
+        // Lower arms
+        const lowerArmGeometry = new THREE.CylinderGeometry(0.08, 0.1, 0.35, 12);
+        
+        const leftLowerArm = new THREE.Mesh(lowerArmGeometry, armMaterial);
+        leftLowerArm.position.set(-0.55, 0.6, 0.35);
+        leftLowerArm.rotation.z = Math.PI / 8;
+        leftLowerArm.rotation.x = -Math.PI / 4;
+        leftLowerArm.castShadow = true;
+        this.scene.add(leftLowerArm);
+        
+        const rightLowerArm = new THREE.Mesh(lowerArmGeometry, armMaterial);
+        rightLowerArm.position.set(0.55, 0.6, 0.35);
+        rightLowerArm.rotation.z = -Math.PI / 8;
+        rightLowerArm.rotation.x = -Math.PI / 4;
+        rightLowerArm.castShadow = true;
+        this.scene.add(rightLowerArm);
+        
+        // Detailed hands with fingers
+        this.createDetailedHands();
+    }
+
+    createDetailedHands() {
+        // Left hand palm
+        const palmGeometry = new THREE.BoxGeometry(0.12, 0.08, 0.16);
         const handMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
         
-        const leftHand = new THREE.Mesh(handGeometry, handMaterial);
-        leftHand.position.set(-0.5, 1.4, 0.6);
-        leftHand.castShadow = true;
-        this.scene.add(leftHand);
+        const leftPalm = new THREE.Mesh(palmGeometry, handMaterial);
+        leftPalm.position.set(-0.58, 0.42, 0.55);
+        leftPalm.rotation.x = -Math.PI / 3;
+        leftPalm.rotation.z = Math.PI / 12;
+        leftPalm.castShadow = true;
+        this.scene.add(leftPalm);
         
-        const rightHand = new THREE.Mesh(handGeometry, handMaterial);
-        rightHand.position.set(0.5, 1.4, 0.6);
-        rightHand.castShadow = true;
-        this.scene.add(rightHand);
+        const rightPalm = new THREE.Mesh(palmGeometry, handMaterial);
+        rightPalm.position.set(0.58, 0.42, 0.55);
+        rightPalm.rotation.x = -Math.PI / 3;
+        rightPalm.rotation.z = -Math.PI / 12;
+        rightPalm.castShadow = true;
+        this.scene.add(rightPalm);
+
+        // Fingers for left hand
+        const fingerGeometry = new THREE.CylinderGeometry(0.015, 0.012, 0.08, 8);
         
-        this.princessHands = [leftHand, rightHand];
+        for (let i = 0; i < 4; i++) {
+            const finger = new THREE.Mesh(fingerGeometry, handMaterial);
+            finger.position.set(
+                -0.58 + (i - 1.5) * 0.025,
+                0.38,
+                0.62
+            );
+            finger.rotation.x = -Math.PI / 2.5;
+            finger.rotation.z = Math.PI / 12;
+            finger.castShadow = true;
+            this.scene.add(finger);
+        }
+
+        // Thumb for left hand
+        const thumb = new THREE.Mesh(fingerGeometry, handMaterial);
+        thumb.position.set(-0.62, 0.44, 0.52);
+        thumb.rotation.x = -Math.PI / 4;
+        thumb.rotation.y = Math.PI / 6;
+        thumb.rotation.z = Math.PI / 8;
+        thumb.castShadow = true;
+        this.scene.add(thumb);
+
+        // Fingers for right hand
+        for (let i = 0; i < 4; i++) {
+            const finger = new THREE.Mesh(fingerGeometry, handMaterial);
+            finger.position.set(
+                0.58 + (i - 1.5) * 0.025,
+                0.38,
+                0.62
+            );
+            finger.rotation.x = -Math.PI / 2.5;
+            finger.rotation.z = -Math.PI / 12;
+            finger.castShadow = true;
+            this.scene.add(finger);
+        }
+
+        // Thumb for right hand
+        const rightThumb = new THREE.Mesh(fingerGeometry, handMaterial);
+        rightThumb.position.set(0.62, 0.44, 0.52);
+        rightThumb.rotation.x = -Math.PI / 4;
+        rightThumb.rotation.y = -Math.PI / 6;
+        rightThumb.rotation.z = -Math.PI / 8;
+        rightThumb.castShadow = true;
+        this.scene.add(rightThumb);
+        
+        // Store hand positions for water effect (use palm positions)
+        this.princessHands = [leftPalm, rightPalm];
     }
-    
+
     createWaterEffect() {
         this.waterParticles = [];
         const particleGeometry = new THREE.SphereGeometry(0.02, 4, 4);
