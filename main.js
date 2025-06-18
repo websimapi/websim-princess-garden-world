@@ -95,18 +95,15 @@ class PrincessGarden {
             transparent: true
         });
         
-        // Create a 5x5 grid of terrain chunks with the center empty (where our garden is)
+        // Create a 3x3 grid of terrain chunks with the center empty (where our garden is)
+        // Each chunk is 20x20, so we position them at -20, 0, 20 intervals
         const terrainPositions = [
             // Top row
-            [-40, 0, -40], [-20, 0, -40], [0, 0, -40], [20, 0, -40], [40, 0, -40],
-            // Upper middle row  
-            [-40, 0, -20], [-20, 0, -20], [20, 0, -20], [40, 0, -20],
+            [-20, 0, -20], [0, 0, -20], [20, 0, -20],
             // Middle row (skip center where garden is)
-            [-40, 0, 0], [40, 0, 0],
-            // Lower middle row
-            [-40, 0, 20], [-20, 0, 20], [20, 0, 20], [40, 0, 20],
+            [-20, 0, 0], [20, 0, 0],
             // Bottom row
-            [-40, 0, 40], [-20, 0, 40], [0, 0, 40], [20, 0, 40], [40, 0, 40]
+            [-20, 0, 20], [0, 0, 20], [20, 0, 20]
         ];
         
         terrainPositions.forEach(pos => {
@@ -119,17 +116,19 @@ class PrincessGarden {
     }
     
     createGrassQuadrants() {
-        const grassGeometry = new THREE.PlaneGeometry(12, 12);
+        // Each quadrant should be 8x8 to fit properly with 4-unit wide paths
+        const grassGeometry = new THREE.PlaneGeometry(8, 8);
         const grassMaterial = new THREE.MeshLambertMaterial({ 
             color: 0x4a7c59,
             transparent: true
         });
         
+        // Position quadrants at ±6 to leave room for 4-unit wide paths
         const positions = [
-            [-8, 0, -8],  // Top-left
-            [8, 0, -8],   // Top-right
-            [-8, 0, 8],   // Bottom-left
-            [8, 0, 8]     // Bottom-right
+            [-6, 0, -6],  // Top-left
+            [6, 0, -6],   // Top-right
+            [-6, 0, 6],   // Bottom-left
+            [6, 0, 6]     // Bottom-right
         ];
         
         positions.forEach(pos => {
@@ -142,8 +141,8 @@ class PrincessGarden {
     }
     
     createPaths() {
-        // Horizontal path
-        const pathGeometry = new THREE.PlaneGeometry(30, 4);
+        // Horizontal path - extend to cover the full garden area
+        const pathGeometry = new THREE.PlaneGeometry(20, 4);
         const pathMaterial = new THREE.MeshLambertMaterial({ color: 0xd2b48c });
         
         const horizontalPath = new THREE.Mesh(pathGeometry, pathMaterial);
@@ -152,7 +151,7 @@ class PrincessGarden {
         horizontalPath.receiveShadow = true;
         this.scene.add(horizontalPath);
         
-        // Vertical path
+        // Vertical path - extend to cover the full garden area
         const verticalPath = new THREE.Mesh(pathGeometry, pathMaterial);
         verticalPath.rotation.x = -Math.PI / 2;
         verticalPath.rotation.z = Math.PI / 2;
@@ -160,7 +159,7 @@ class PrincessGarden {
         verticalPath.receiveShadow = true;
         this.scene.add(verticalPath);
         
-        // Path tiles
+        // Path tiles - 3 tiles per path as specified
         this.createPathTiles();
     }
     
@@ -169,10 +168,10 @@ class PrincessGarden {
         const tileMaterial = new THREE.MeshLambertMaterial({ color: 0xbc9a6a });
         
         const tilePositions = [
-            // Horizontal path tiles (3 tiles evenly spaced)
-            [-8, 0.02, 0], [0, 0.02, 0], [8, 0.02, 0],
-            // Vertical path tiles (3 tiles evenly spaced)
-            [0, 0.02, -8], [0, 0.02, 0], [0, 0.02, 8]
+            // Horizontal path tiles (3 tiles evenly spaced along 20-unit path)
+            [-6, 0.02, 0], [0, 0.02, 0], [6, 0.02, 0],
+            // Vertical path tiles (3 tiles evenly spaced along 20-unit path)
+            [0, 0.02, -6], [0, 0.02, 6]
         ];
         
         tilePositions.forEach(pos => {
@@ -312,14 +311,14 @@ class PrincessGarden {
     
     createFlowers() {
         const flowerPositions = [
-            // Top-left quadrant
-            [-12, 0, -12], [-6, 0, -10], [-10, 0, -6],
-            // Top-right quadrant
-            [12, 0, -12], [6, 0, -10], [10, 0, -6],
+            // Top-left quadrant (3 flowers within 8x8 grass area)
+            [-8, 0, -8], [-4, 0, -8], [-6, 0, -4],
+            // Top-right quadrant  
+            [8, 0, -8], [4, 0, -8], [6, 0, -4],
             // Bottom-left quadrant
-            [-12, 0, 12], [-6, 0, 10], [-10, 0, 6],
+            [-8, 0, 8], [-4, 0, 8], [-6, 0, 4],
             // Bottom-right quadrant
-            [12, 0, 12], [6, 0, 10], [10, 0, 6]
+            [8, 0, 8], [4, 0, 8], [6, 0, 4]
         ];
         
         flowerPositions.forEach((pos, index) => {
