@@ -4,7 +4,7 @@ import nipplejs from 'nipplejs';
 class PrincessGarden {
     constructor() {
         this.scene = new THREE.Scene();
-        this.camera = new THREE.OrthographicCamera(-20, 20, 15, -15, 0.1, 2000); // Increased far plane
+        this.camera = new THREE.OrthographicCamera(-20, 20, 15, -15, 1, 200);
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.clock = new THREE.Clock();
         
@@ -27,7 +27,7 @@ class PrincessGarden {
         this.lastMouseY = 0;
         
         // Zoom controls
-        this.frustumSize = 30;
+        this.frustumSize = 35;
         
         this.init();
     }
@@ -396,7 +396,7 @@ class PrincessGarden {
             const deltaY = event.clientY - this.lastMouseY;
             
             this.cameraAngleH -= deltaX * 0.01;
-            this.cameraAngleV = Math.max(0.2, Math.min(Math.PI / 2, this.cameraAngleV + deltaY * 0.01)); // Adjusted min angle
+            this.cameraAngleV = Math.max(0.1, Math.min(Math.PI / 2, this.cameraAngleV + deltaY * 0.01));
             
             this.lastMouseX = event.clientX;
             this.lastMouseY = event.clientY;
@@ -437,7 +437,7 @@ class PrincessGarden {
                 const deltaY = event.touches[0].clientY - lastTouchY;
                 
                 this.cameraAngleH -= deltaX * 0.01;
-                this.cameraAngleV = Math.max(0.2, Math.min(Math.PI / 2, this.cameraAngleV + deltaY * 0.01)); // Adjusted min angle
+                this.cameraAngleV = Math.max(0.1, Math.min(Math.PI / 2, this.cameraAngleV + deltaY * 0.01));
                 
                 lastTouchX = event.touches[0].clientX;
                 lastTouchY = event.touches[0].clientY;
@@ -560,10 +560,17 @@ class PrincessGarden {
     updateCameraProjection() {
         const aspect = window.innerWidth / window.innerHeight;
         
-        this.camera.left = -this.frustumSize * aspect / 2;
-        this.camera.right = this.frustumSize * aspect / 2;
-        this.camera.top = this.frustumSize / 2;
-        this.camera.bottom = -this.frustumSize / 2;
+        // Adjust frustum to account for camera angle - when looking down at an angle,
+        // we need a larger frustum to avoid clipping the far edges
+        const angleAdjustment = 1 + (Math.PI/2 - this.cameraAngleV) * 0.5;
+        const adjustedFrustumSize = this.frustumSize * angleAdjustment;
+        
+        this.camera.left = -adjustedFrustumSize * aspect / 2;
+        this.camera.right = adjustedFrustumSize * aspect / 2;
+        this.camera.top = adjustedFrustumSize / 2;
+        this.camera.bottom = -adjustedFrustumSize / 2;
+        this.camera.near = 1;
+        this.camera.far = 200;
         this.camera.updateProjectionMatrix();
     }
     
