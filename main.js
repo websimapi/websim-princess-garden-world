@@ -32,7 +32,7 @@ class PrincessGarden {
     init() {
         // Setup renderer
         this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.setClearColor(0x87CEEB);
+        this.renderer.setClearColor(0x87CEEB); // Sky blue background
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         document.getElementById('gameContainer').appendChild(this.renderer.domElement);
@@ -72,13 +72,10 @@ class PrincessGarden {
     }
     
     createWorld() {
-        // Create neighboring terrain first (so it renders behind the garden)
-        this.createNeighboringTerrain();
+        // Create a single, large ground plane for seamless terrain
+        this.createGroundPlane();
         
-        // Create grass quadrants
-        this.createGrassQuadrants();
-        
-        // Create paths
+        // Create paths on top of the ground plane
         this.createPaths();
         
         // Create fountain
@@ -88,56 +85,23 @@ class PrincessGarden {
         this.createFlowers();
     }
     
+    createGroundPlane() {
+        // A single large plane (60x60) to serve as the ground for the main garden and surrounding area.
+        const groundGeometry = new THREE.PlaneGeometry(60, 60);
+        const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x4a7c59 });
+        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        ground.rotation.x = -Math.PI / 2;
+        ground.position.y = 0;
+        ground.receiveShadow = true;
+        this.scene.add(ground);
+    }
+
     createNeighboringTerrain() {
-        const terrainGeometry = new THREE.PlaneGeometry(20, 20);
-        const terrainMaterial = new THREE.MeshLambertMaterial({ 
-            color: 0x4a7c59,  // Same color as garden grass quadrants
-            transparent: true
-        });
-        
-        // Create a 3x3 grid of terrain chunks with the center empty (where our garden is)
-        // Each chunk is 20x20, so we position them at -20, 0, 20 intervals
-        const terrainPositions = [
-            // Top row
-            [-20, 0, -20], [0, 0, -20], [20, 0, -20],
-            // Middle row (skip center where garden is)
-            [-20, 0, 0], [20, 0, 0],
-            // Bottom row
-            [-20, 0, 20], [0, 0, 20], [20, 0, 20]
-        ];
-        
-        terrainPositions.forEach(pos => {
-            const terrain = new THREE.Mesh(terrainGeometry, terrainMaterial);
-            terrain.rotation.x = -Math.PI / 2;
-            terrain.position.set(pos[0], pos[1] - 0.01, pos[2]); // Slightly lower than garden
-            terrain.receiveShadow = true;
-            this.scene.add(terrain);
-        });
+        // This function is no longer needed as createGroundPlane handles the entire terrain.
     }
     
     createGrassQuadrants() {
-        // Each quadrant should be 8x8 to fit properly with 4-unit wide paths
-        const grassGeometry = new THREE.PlaneGeometry(8, 8);
-        const grassMaterial = new THREE.MeshLambertMaterial({ 
-            color: 0x4a7c59,
-            transparent: true
-        });
-        
-        // Position quadrants at ±6 to leave room for 4-unit wide paths
-        const positions = [
-            [-6, 0, -6],  // Top-left
-            [6, 0, -6],   // Top-right
-            [-6, 0, 6],   // Bottom-left
-            [6, 0, 6]     // Bottom-right
-        ];
-        
-        positions.forEach(pos => {
-            const grass = new THREE.Mesh(grassGeometry, grassMaterial);
-            grass.rotation.x = -Math.PI / 2;
-            grass.position.set(pos[0], pos[1], pos[2]);
-            grass.receiveShadow = true;
-            this.scene.add(grass);
-        });
+        // This function is no longer needed as createGroundPlane handles the grass.
     }
     
     createPaths() {
