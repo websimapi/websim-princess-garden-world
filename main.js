@@ -92,8 +92,8 @@ class PrincessGarden {
     }
     
     createGroundPlane() {
-        // A single large plane (60x60) to serve as the ground for the main garden and surrounding area.
-        const groundGeometry = new THREE.PlaneGeometry(60, 60);
+        // A single large plane (500x500) to serve as the ground for the main garden and surrounding area.
+        const groundGeometry = new THREE.PlaneGeometry(500, 500);
         const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x4a7c59 });
         const ground = new THREE.Mesh(groundGeometry, groundMaterial);
         ground.rotation.x = -Math.PI / 2;
