@@ -102,7 +102,7 @@ class PrincessGarden {
     
     createPaths() {
         // Horizontal path
-        const pathGeometry = new THREE.PlaneGeometry(20, 4);
+        const pathGeometry = new THREE.PlaneGeometry(30, 4);
         const pathMaterial = new THREE.MeshLambertMaterial({ color: 0xd2b48c });
         
         const horizontalPath = new THREE.Mesh(pathGeometry, pathMaterial);
@@ -128,10 +128,10 @@ class PrincessGarden {
         const tileMaterial = new THREE.MeshLambertMaterial({ color: 0xbc9a6a });
         
         const tilePositions = [
-            // Horizontal path tiles
-            [-4, 0.02, 0], [0, 0.02, 0], [4, 0.02, 0],
-            // Vertical path tiles  
-            [0, 0.02, -4], [0, 0.02, 4]
+            // Horizontal path tiles (3 tiles evenly spaced)
+            [-8, 0.02, 0], [0, 0.02, 0], [8, 0.02, 0],
+            // Vertical path tiles (3 tiles evenly spaced)
+            [0, 0.02, -8], [0, 0.02, 0], [0, 0.02, 8]
         ];
         
         tilePositions.forEach(pos => {
@@ -475,4 +475,3 @@ class PrincessGarden {
 
 // Start the game
 new PrincessGarden();
-
