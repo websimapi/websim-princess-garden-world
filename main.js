@@ -226,65 +226,146 @@ class PrincessGarden {
         head.castShadow = true;
         this.scene.add(head);
 
-        // Eyes
-        const eyeGeometry = new THREE.SphereGeometry(0.03, 8, 8);
-        const eyeMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
+        // Larger, more expressive eyes
+        const eyeGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+        const eyeMaterial = new THREE.MeshLambertMaterial({ color: 0x4169e1 }); // Royal blue eyes
         
         const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-        leftEye.position.set(-0.08, 1.85, 0.18);
+        leftEye.position.set(-0.08, 1.86, 0.18);
         this.scene.add(leftEye);
         
         const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
-        rightEye.position.set(0.08, 1.85, 0.18);
+        rightEye.position.set(0.08, 1.86, 0.18);
         this.scene.add(rightEye);
 
-        // Nose
-        const noseGeometry = new THREE.SphereGeometry(0.015, 6, 6);
+        // Eye pupils
+        const pupilGeometry = new THREE.SphereGeometry(0.025, 8, 8);
+        const pupilMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
+        
+        const leftPupil = new THREE.Mesh(pupilGeometry, pupilMaterial);
+        leftPupil.position.set(-0.08, 1.86, 0.2);
+        this.scene.add(leftPupil);
+        
+        const rightPupil = new THREE.Mesh(pupilGeometry, pupilMaterial);
+        rightPupil.position.set(0.08, 1.86, 0.2);
+        this.scene.add(rightPupil);
+
+        // Eyelashes
+        const eyelashGeometry = new THREE.CylinderGeometry(0.005, 0.002, 0.04, 4);
+        const eyelashMaterial = new THREE.MeshLambertMaterial({ color: 0x2f1b14 });
+        
+        // Left eyelashes
+        for (let i = 0; i < 5; i++) {
+            const eyelash = new THREE.Mesh(eyelashGeometry, eyelashMaterial);
+            eyelash.position.set(-0.08 + (i - 2) * 0.015, 1.89, 0.19);
+            eyelash.rotation.z = (i - 2) * 0.1;
+            eyelash.rotation.x = -0.2;
+            this.scene.add(eyelash);
+        }
+        
+        // Right eyelashes
+        for (let i = 0; i < 5; i++) {
+            const eyelash = new THREE.Mesh(eyelashGeometry, eyelashMaterial);
+            eyelash.position.set(0.08 + (i - 2) * 0.015, 1.89, 0.19);
+            eyelash.rotation.z = (i - 2) * 0.1;
+            eyelash.rotation.x = -0.2;
+            this.scene.add(eyelash);
+        }
+
+        // Rosy cheeks
+        const cheekGeometry = new THREE.SphereGeometry(0.03, 8, 8);
+        const cheekMaterial = new THREE.MeshLambertMaterial({ 
+            color: 0xff69b4, 
+            transparent: true, 
+            opacity: 0.6 
+        });
+        
+        const leftCheek = new THREE.Mesh(cheekGeometry, cheekMaterial);
+        leftCheek.position.set(-0.12, 1.8, 0.16);
+        this.scene.add(leftCheek);
+        
+        const rightCheek = new THREE.Mesh(cheekGeometry, cheekMaterial);
+        rightCheek.position.set(0.12, 1.8, 0.16);
+        this.scene.add(rightCheek);
+
+        // Improved nose
+        const noseGeometry = new THREE.SphereGeometry(0.018, 8, 8);
         const noseMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
         const nose = new THREE.Mesh(noseGeometry, noseMaterial);
-        nose.position.set(0, 1.8, 0.2);
+        nose.position.set(0, 1.81, 0.2);
+        nose.scale.set(0.8, 0.6, 1.2);
         this.scene.add(nose);
 
-        // Mouth
-        const mouthGeometry = new THREE.SphereGeometry(0.02, 8, 4);
-        const mouthMaterial = new THREE.MeshLambertMaterial({ color: 0xff6b9d });
-        const mouth = new THREE.Mesh(mouthGeometry, mouthMaterial);
-        mouth.position.set(0, 1.75, 0.18);
-        mouth.scale.set(1.5, 0.5, 0.8);
-        this.scene.add(mouth);
+        // More defined lips
+        const lipGeometry = new THREE.SphereGeometry(0.03, 8, 6);
+        const lipMaterial = new THREE.MeshLambertMaterial({ color: 0xff1493 });
+        const lips = new THREE.Mesh(lipGeometry, lipMaterial);
+        lips.position.set(0, 1.76, 0.19);
+        lips.scale.set(1.8, 0.4, 0.8);
+        this.scene.add(lips);
         
-        // Hair (more detailed)
+        // Golden hair (more detailed and voluminous)
         const hairGeometry = new THREE.SphereGeometry(0.28, 16, 16);
-        const hairMaterial = new THREE.MeshLambertMaterial({ color: 0x8b4513 });
+        const hairMaterial = new THREE.MeshLambertMaterial({ color: 0xffd700 }); // Golden color
         const hair = new THREE.Mesh(hairGeometry, hairMaterial);
-        hair.position.set(0, 1.9, -0.05);
-        hair.scale.set(1.1, 1.3, 1);
+        hair.position.set(0, 1.92, -0.08);
+        hair.scale.set(1.2, 1.4, 1.1);
         hair.castShadow = true;
         this.scene.add(hair);
 
-        // Hair strands
-        for (let i = 0; i < 6; i++) {
-            const strandGeometry = new THREE.CylinderGeometry(0.02, 0.01, 0.3, 6);
+        // Hair volume on sides
+        const sideHairGeometry = new THREE.SphereGeometry(0.18, 12, 12);
+        
+        const leftSideHair = new THREE.Mesh(sideHairGeometry, hairMaterial);
+        leftSideHair.position.set(-0.25, 1.88, -0.02);
+        leftSideHair.scale.set(1.3, 1.2, 0.8);
+        leftSideHair.castShadow = true;
+        this.scene.add(leftSideHair);
+        
+        const rightSideHair = new THREE.Mesh(sideHairGeometry, hairMaterial);
+        rightSideHair.position.set(0.25, 1.88, -0.02);
+        rightSideHair.scale.set(1.3, 1.2, 0.8);
+        rightSideHair.castShadow = true;
+        this.scene.add(rightSideHair);
+
+        // Elegant hair strands
+        for (let i = 0; i < 8; i++) {
+            const strandGeometry = new THREE.CylinderGeometry(0.025, 0.015, 0.4, 6);
             const strand = new THREE.Mesh(strandGeometry, hairMaterial);
-            const angle = (i / 6) * Math.PI * 2;
+            const angle = (i / 8) * Math.PI * 2;
             strand.position.set(
-                Math.cos(angle) * 0.25,
-                1.75,
-                Math.sin(angle) * 0.25 - 0.05
+                Math.cos(angle) * 0.28,
+                1.7,
+                Math.sin(angle) * 0.28 - 0.08
             );
-            strand.rotation.z = Math.cos(angle) * 0.3;
+            strand.rotation.z = Math.cos(angle) * 0.4;
             strand.rotation.x = Math.sin(angle) * 0.3;
+            strand.castShadow = true;
             this.scene.add(strand);
         }
-        
-        // Neck
-        const neckGeometry = new THREE.CylinderGeometry(0.12, 0.15, 0.2, 12);
-        const neckMaterial = new THREE.MeshLambertMaterial({ color: 0xffdbac });
-        const neck = new THREE.Mesh(neckGeometry, neckMaterial);
-        neck.position.set(0, 1.55, 0);
-        neck.castShadow = true;
-        this.scene.add(neck);
 
+        // Princess tiara
+        const tiaraGeometry = new THREE.CylinderGeometry(0.26, 0.28, 0.08, 16);
+        const tiaraMaterial = new THREE.MeshLambertMaterial({ color: 0xffd700 });
+        const tiara = new THREE.Mesh(tiaraGeometry, tiaraMaterial);
+        tiara.position.set(0, 2.02, 0);
+        tiara.castShadow = true;
+        this.scene.add(tiara);
+
+        // Tiara gems
+        for (let i = 0; i < 5; i++) {
+            const gemGeometry = new THREE.SphereGeometry(0.02, 8, 8);
+            const gemMaterial = new THREE.MeshLambertMaterial({ color: 0xff1493 });
+            const gem = new THREE.Mesh(gemGeometry, gemMaterial);
+            const angle = (i / 5) * Math.PI * 2;
+            gem.position.set(
+                Math.cos(angle) * 0.25,
+                2.06,
+                Math.sin(angle) * 0.25
+            );
+            this.scene.add(gem);
+        }
+        
         // Shoulders
         const shoulderGeometry = new THREE.SphereGeometry(0.18, 12, 12);
         const shoulderMaterial = new THREE.MeshLambertMaterial({ color: 0xffc0cb });
