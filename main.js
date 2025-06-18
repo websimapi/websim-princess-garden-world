@@ -72,6 +72,9 @@ class PrincessGarden {
     }
     
     createWorld() {
+        // Create neighboring terrain first (so it renders behind the garden)
+        this.createNeighboringTerrain();
+        
         // Create grass quadrants
         this.createGrassQuadrants();
         
@@ -83,6 +86,36 @@ class PrincessGarden {
         
         // Create flowers
         this.createFlowers();
+    }
+    
+    createNeighboringTerrain() {
+        const terrainGeometry = new THREE.PlaneGeometry(20, 20);
+        const terrainMaterial = new THREE.MeshLambertMaterial({ 
+            color: 0x3d6b47,  // Slightly darker green than garden grass
+            transparent: true
+        });
+        
+        // Create a 5x5 grid of terrain chunks with the center empty (where our garden is)
+        const terrainPositions = [
+            // Top row
+            [-40, 0, -40], [-20, 0, -40], [0, 0, -40], [20, 0, -40], [40, 0, -40],
+            // Upper middle row  
+            [-40, 0, -20], [-20, 0, -20], [20, 0, -20], [40, 0, -20],
+            // Middle row (skip center where garden is)
+            [-40, 0, 0], [40, 0, 0],
+            // Lower middle row
+            [-40, 0, 20], [-20, 0, 20], [20, 0, 20], [40, 0, 20],
+            // Bottom row
+            [-40, 0, 40], [-20, 0, 40], [0, 0, 40], [20, 0, 40], [40, 0, 40]
+        ];
+        
+        terrainPositions.forEach(pos => {
+            const terrain = new THREE.Mesh(terrainGeometry, terrainMaterial);
+            terrain.rotation.x = -Math.PI / 2;
+            terrain.position.set(pos[0], pos[1] - 0.01, pos[2]); // Slightly lower than garden
+            terrain.receiveShadow = true;
+            this.scene.add(terrain);
+        });
     }
     
     createGrassQuadrants() {
