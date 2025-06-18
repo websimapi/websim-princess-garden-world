@@ -4,7 +4,7 @@ import nipplejs from 'nipplejs';
 class PrincessGarden {
     constructor() {
         this.scene = new THREE.Scene();
-        this.camera = new THREE.OrthographicCamera(-20, 20, 15, -15, 0.1, 1000);
+        this.camera = new THREE.OrthographicCamera(-20, 20, 15, -15, 0.1, 2000); // Increased far plane
         this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.clock = new THREE.Clock();
         
@@ -396,7 +396,7 @@ class PrincessGarden {
             const deltaY = event.clientY - this.lastMouseY;
             
             this.cameraAngleH -= deltaX * 0.01;
-            this.cameraAngleV = Math.max(0.1, Math.min(Math.PI / 2, this.cameraAngleV + deltaY * 0.01));
+            this.cameraAngleV = Math.max(0.2, Math.min(Math.PI / 2, this.cameraAngleV + deltaY * 0.01)); // Adjusted min angle
             
             this.lastMouseX = event.clientX;
             this.lastMouseY = event.clientY;
@@ -437,7 +437,7 @@ class PrincessGarden {
                 const deltaY = event.touches[0].clientY - lastTouchY;
                 
                 this.cameraAngleH -= deltaX * 0.01;
-                this.cameraAngleV = Math.max(0.1, Math.min(Math.PI / 2, this.cameraAngleV + deltaY * 0.01));
+                this.cameraAngleV = Math.max(0.2, Math.min(Math.PI / 2, this.cameraAngleV + deltaY * 0.01)); // Adjusted min angle
                 
                 lastTouchX = event.touches[0].clientX;
                 lastTouchY = event.touches[0].clientY;
