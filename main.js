@@ -26,6 +26,9 @@ class PrincessGarden {
         this.lastMouseX = 0;
         this.lastMouseY = 0;
         
+        // Zoom controls
+        this.frustumSize = 30;
+        
         this.init();
     }
     
@@ -49,6 +52,9 @@ class PrincessGarden {
         
         // Setup controls
         this.setupControls();
+
+        // Initial camera projection update
+        this.updateCameraProjection();
         
         // Start animation loop
         this.animate();
@@ -395,18 +401,38 @@ class PrincessGarden {
             this.lastMouseX = event.clientX;
             this.lastMouseY = event.clientY;
         });
+
+        // Mouse wheel zoom
+        window.addEventListener('wheel', (event) => {
+            event.preventDefault(); // Prevent page scrolling
+            const zoomSpeed = 0.05;
+            this.frustumSize += event.deltaY * zoomSpeed;
+            this.frustumSize = Math.max(5, Math.min(80, this.frustumSize)); // Clamp zoom level
+            this.updateCameraProjection();
+        }, { passive: false });
         
         // Touch camera controls
         let lastTouchX, lastTouchY;
+        let lastPinchDistance = 0;
         window.addEventListener('touchstart', (event) => {
-            if (event.touches.length === 1) {
+            if (event.touches.length === 1 && !this.isPinching(event)) {
+                this.isMouseDown = true; // for rotation
                 lastTouchX = event.touches[0].clientX;
                 lastTouchY = event.touches[0].clientY;
+            } else if (event.touches.length === 2) {
+                this.isMouseDown = false; // disable rotation during pinch
+                lastPinchDistance = this.getPinchDistance(event);
             }
+        });
+
+        window.addEventListener('touchend', (event) => {
+            this.isMouseDown = false;
+            lastPinchDistance = 0;
         });
         
         window.addEventListener('touchmove', (event) => {
-            if (event.touches.length === 1) {
+            event.preventDefault(); // Prevent page scrolling
+            if (event.touches.length === 1 && this.isMouseDown) {
                 const deltaX = event.touches[0].clientX - lastTouchX;
                 const deltaY = event.touches[0].clientY - lastTouchY;
                 
@@ -415,8 +441,19 @@ class PrincessGarden {
                 
                 lastTouchX = event.touches[0].clientX;
                 lastTouchY = event.touches[0].clientY;
+            } else if (event.touches.length === 2) {
+                const pinchDistance = this.getPinchDistance(event);
+                const deltaPinch = pinchDistance - lastPinchDistance;
+                
+                // Zoom with pinch
+                const zoomSpeed = 0.1;
+                this.frustumSize -= deltaPinch * zoomSpeed;
+                this.frustumSize = Math.max(5, Math.min(80, this.frustumSize)); // Clamp zoom
+                this.updateCameraProjection();
+                
+                lastPinchDistance = pinchDistance;
             }
-        });
+        }, { passive: false });
         
         // Mobile controls
         if ('ontouchstart' in window) {
@@ -445,6 +482,16 @@ class PrincessGarden {
                 this.moveState.right = false;
             });
         }
+    }
+
+    isPinching(event) {
+        return event.touches.length === 2;
+    }
+
+    getPinchDistance(event) {
+        const dx = event.touches[0].clientX - event.touches[1].clientX;
+        const dy = event.touches[0].clientY - event.touches[1].clientY;
+        return Math.sqrt(dx * dx + dy * dy);
     }
     
     updateMovement(deltaTime) {
@@ -509,17 +556,19 @@ class PrincessGarden {
         
         this.renderer.render(this.scene, this.camera);
     }
+
+    updateCameraProjection() {
+        const aspect = window.innerWidth / window.innerHeight;
+        
+        this.camera.left = -this.frustumSize * aspect / 2;
+        this.camera.right = this.frustumSize * aspect / 2;
+        this.camera.top = this.frustumSize / 2;
+        this.camera.bottom = -this.frustumSize / 2;
+        this.camera.updateProjectionMatrix();
+    }
     
     onWindowResize() {
-        const aspect = window.innerWidth / window.innerHeight;
-        const frustumSize = 30;
-        
-        this.camera.left = -frustumSize * aspect / 2;
-        this.camera.right = frustumSize * aspect / 2;
-        this.camera.top = frustumSize / 2;
-        this.camera.bottom = -frustumSize / 2;
-        this.camera.updateProjectionMatrix();
-        
+        this.updateCameraProjection();
         this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
 }
