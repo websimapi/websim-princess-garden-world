@@ -18,6 +18,14 @@ class PrincessGarden {
         this.cameraPosition = new THREE.Vector3(0, 0, 0);
         this.moveSpeed = 8;
         
+        // Camera rotation controls
+        this.cameraDistance = 25;
+        this.cameraAngleH = 0; // horizontal rotation
+        this.cameraAngleV = Math.PI / 3; // vertical rotation (60 degrees down from horizontal)
+        this.isMouseDown = false;
+        this.lastMouseX = 0;
+        this.lastMouseY = 0;
+        
         this.init();
     }
     
@@ -368,6 +376,52 @@ class PrincessGarden {
             }
         });
         
+        // Mouse camera controls
+        window.addEventListener('mousedown', (event) => {
+            this.isMouseDown = true;
+            this.lastMouseX = event.clientX;
+            this.lastMouseY = event.clientY;
+        });
+        
+        window.addEventListener('mouseup', () => {
+            this.isMouseDown = false;
+        });
+        
+        window.addEventListener('mousemove', (event) => {
+            if (!this.isMouseDown) return;
+            
+            const deltaX = event.clientX - this.lastMouseX;
+            const deltaY = event.clientY - this.lastMouseY;
+            
+            this.cameraAngleH -= deltaX * 0.01;
+            this.cameraAngleV = Math.max(0.1, Math.min(Math.PI / 2, this.cameraAngleV + deltaY * 0.01));
+            
+            this.lastMouseX = event.clientX;
+            this.lastMouseY = event.clientY;
+        });
+        
+        // Touch camera controls
+        let lastTouchX, lastTouchY;
+        window.addEventListener('touchstart', (event) => {
+            if (event.touches.length === 1) {
+                lastTouchX = event.touches[0].clientX;
+                lastTouchY = event.touches[0].clientY;
+            }
+        });
+        
+        window.addEventListener('touchmove', (event) => {
+            if (event.touches.length === 1) {
+                const deltaX = event.touches[0].clientX - lastTouchX;
+                const deltaY = event.touches[0].clientY - lastTouchY;
+                
+                this.cameraAngleH -= deltaX * 0.01;
+                this.cameraAngleV = Math.max(0.1, Math.min(Math.PI / 2, this.cameraAngleV + deltaY * 0.01));
+                
+                lastTouchX = event.touches[0].clientX;
+                lastTouchY = event.touches[0].clientY;
+            }
+        });
+        
         // Mobile controls
         if ('ontouchstart' in window) {
             const joystick = nipplejs.create({
@@ -417,11 +471,12 @@ class PrincessGarden {
         this.cameraPosition.x = Math.max(-15, Math.min(15, this.cameraPosition.x));
         this.cameraPosition.z = Math.max(-15, Math.min(15, this.cameraPosition.z));
         
-        this.camera.position.set(
-            this.cameraPosition.x,
-            20,
-            this.cameraPosition.z
-        );
+        // Update camera position based on rotation angles
+        const cameraX = this.cameraPosition.x + Math.cos(this.cameraAngleH) * Math.sin(this.cameraAngleV) * this.cameraDistance;
+        const cameraY = Math.cos(this.cameraAngleV) * this.cameraDistance;
+        const cameraZ = this.cameraPosition.z + Math.sin(this.cameraAngleH) * Math.sin(this.cameraAngleV) * this.cameraDistance;
+        
+        this.camera.position.set(cameraX, cameraY, cameraZ);
         this.camera.lookAt(this.cameraPosition.x, 0, this.cameraPosition.z);
     }
     
