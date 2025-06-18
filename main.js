@@ -560,9 +560,10 @@ class PrincessGarden {
     updateCameraProjection() {
         const aspect = window.innerWidth / window.innerHeight;
         
-        // Adjust frustum to account for camera angle - when looking down at an angle,
-        // we need a larger frustum to avoid clipping the far edges
-        const angleAdjustment = 1 + (Math.PI/2 - this.cameraAngleV) * 0.5;
+        // More aggressive angle adjustment to prevent clipping when looking down at steep angles
+        // When cameraAngleV is small (looking more straight down), we need much larger frustum
+        const normalizedAngle = this.cameraAngleV / (Math.PI / 2); // 0 to 1, where 0 is straight down
+        const angleAdjustment = 1 + (1 - normalizedAngle) * 2; // More aggressive scaling
         const adjustedFrustumSize = this.frustumSize * angleAdjustment;
         
         this.camera.left = -adjustedFrustumSize * aspect / 2;
